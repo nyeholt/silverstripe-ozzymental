@@ -1,0 +1,19 @@
+{
+	"name": "nyeholt/silverstripe-ozzymental",
+	"description": "Useful additions to the Elemental module.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "elements", "multirecord-editing"],
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Marcus Nyeholt",
+			"email": "marcus@silverstripe.com.au"
+		}
+	],
+	"extra": {
+		"installer-name": "ozzymental",
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}

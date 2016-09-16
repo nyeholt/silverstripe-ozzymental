@@ -1,0 +1,21 @@
+---
+Name: element_config
+---
+BaseElement:
+  extensions:
+    - TemplatedElementExtension
+  only_available_in:
+    - ElementAreaEditor
+   
+BaseElement_Controller:
+  extensions:
+    - TemplatedElementControllerExtension
+    
+---
+Name: elemental_overrides
+Only:
+  moduleexists: usertemplates
+---
+BaseElement:
+  has_one:
+    LayoutTemplate: UserTemplate

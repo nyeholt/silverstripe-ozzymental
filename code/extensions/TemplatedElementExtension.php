@@ -43,7 +43,11 @@ class TemplatedElementExtension extends DataExtension {
 	}
 
 	public function getElementTemplateList() {
-		$layouts = class_exists('UserTemplate') ? DataList::create('UserTemplate')->filter(array('Use' => 'Layout')) : array();
+		$layouts = class_exists('UserTemplate') ? DataList::create('UserTemplate')->filter(array('Use' => 'Layout')) : null;
+        if (!$layouts) {
+            return [];
+        }
+
 		$themeDir = Config::inst()->get('SSViewer', 'theme');
 		$templates = array();
 		if (strlen($themeDir)) {
@@ -54,7 +58,7 @@ class TemplatedElementExtension extends DataExtension {
 				$templates[$templateName] = $templateName;
 			}
 		}
-		
+
 		foreach($layouts->map() as $ID => $title) {
 			$templates[$ID] = $title;
 		}

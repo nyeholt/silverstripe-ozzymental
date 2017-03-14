@@ -19,3 +19,12 @@ Only:
 BaseElement:
   has_one:
     LayoutTemplate: UserTemplate
+
+---
+Name: multirecord_elemental
+Only:
+  moduleexists: multirecordfield
+---
+BaseElement:
+  extensions:
+    - MultiEditedElementsExtension

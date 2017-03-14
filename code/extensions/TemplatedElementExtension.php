@@ -31,8 +31,7 @@ class TemplatedElementExtension extends DataExtension {
 			$this->owner->LayoutTemplateID = 0;
 		}
 	}
-	
-	
+
 	public function updateCMSFields(\FieldList $fields) {
 
 		$fields->removeByName('RenderWithTemplate');

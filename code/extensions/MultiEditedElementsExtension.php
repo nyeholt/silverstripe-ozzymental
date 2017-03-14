@@ -34,6 +34,7 @@ class MultiEditedElementsExtension extends Extension
 
     public function updateMultiEditFields(FieldList $fields)
     {
+        $fields->removeByName('VirtualClones');
         // @TODO disable for the moment
         if (!Permission::check('ADMIN'))
         {
@@ -87,11 +88,36 @@ class MultiEditedElementsExtension extends Extension
             }
         }
 
+
+        // check all our fields for file uploads and replace them
+        if (class_exists('MultiRecordUploadField')) {
+            $df = $fields->dataFields();
+            foreach ($df as $f) {
+                if ($f instanceof UploadField) {
+                    $uploadField = MultiRecordUploadField::create($f->getName(), $f->Title(), $f->getItems());
+
+                    $uploadField->setAllowedExtensions($f->getAllowedExtensions())
+                        ->setTemplateFileButtons($f->getTemplateFileButtons())
+                        ->setFolderName($f->getFolderName())
+                        ->setCanPreviewFolder($f->canPreviewFolder())
+                        ->setDisplayFolderName($f->getDisplayFolderName());
+
+//                    $fields->replaceField($f->getName(), $uploadField);
+                }
+            }
+        }
+
         if ($this->owner instanceof ElementList && class_exists('MultiRecordField'))
         {
-            $fields->removeByName('ListDescription');
             // replace with editor field
-            $fields->push(MultiRecordField::create('ElementListEditor' . $this->owner->ID, 'Items', $this->owner->Elements()));
+            $editor = MultiRecordField::create('ElementListEditor' . $this->owner->ID, 'Items', $this->owner->Elements());
+            // adding elements inline doesn't quite work well enough just yet. 
+//            $editor->setCanAddInline(false);
+
+            $classes = ClassInfo::subclassesFor('BaseElement');
+            $editor->setModelClasses($classes);
+
+            $fields->push($editor);
         }
     }
 

@@ -13,6 +13,12 @@ class ElementaryPage extends Page
     {
         $fields = parent::getCMSFields();
 
+        if (class_exists('MultiRecordField') && $this->ElementAreaID) {
+            $editor = MultiRecordField::create('ElementEditor', 'Elements', $this->ElementArea()->Elements());
+            $editor->setCanAddInline(false);
+            $fields->addFieldToTab('Root.Main', $editor);
+        }
+
         $grid = $fields->dataFieldByName('ElementArea');
         $fields->addFieldToTab('Root.ManageElements', $grid);
 

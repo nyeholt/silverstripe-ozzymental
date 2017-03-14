@@ -6,11 +6,11 @@ BaseElement:
     - TemplatedElementExtension
   only_available_in:
     - ElementAreaEditor
-   
+
 BaseElement_Controller:
   extensions:
     - TemplatedElementControllerExtension
-    
+
 ---
 Name: elemental_overrides
 Only:

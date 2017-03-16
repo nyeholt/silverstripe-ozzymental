@@ -8,7 +8,9 @@ class MultiEditedElementsExtension extends Extension
 
     public function updateCMSFields(\FieldList $fields)
     {
-        $fields->removeByName('HideTitle');
+        if (!BaseElement::config()->enable_title_in_template) {
+            $fields->removeByName('HideTitle');
+        }
 
         $fields->removeByName('Type');
         $fields->removeByName('MoveToListID');

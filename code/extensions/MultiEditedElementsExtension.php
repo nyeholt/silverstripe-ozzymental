@@ -12,9 +12,10 @@ class MultiEditedElementsExtension extends Extension
             $fields->removeByName('HideTitle');
         }
 
-        $fields->removeByName('Type');
-        $fields->removeByName('MoveToListID');
-
+        if (!Permission::check('ADMIN')) {
+            $fields->removeByName('Type');
+            $fields->removeByName('MoveToListID');
+        }
 
         if ($this->owner instanceof ElementImage && $this->owner->class == 'ElementImage')
         {

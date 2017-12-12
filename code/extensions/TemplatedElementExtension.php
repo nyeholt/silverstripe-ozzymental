@@ -38,7 +38,7 @@ class TemplatedElementExtension extends DataExtension {
 		
 		if (Permission::check('ADMIN')) {
 			// get the list of templates
-			$fields->insertAfter('Title',
+			$fields->addFieldToTab('Root.Settings',
 				DropdownField::create(
 					'RenderWithTemplate',
 					'Display template',

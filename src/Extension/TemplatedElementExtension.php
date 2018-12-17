@@ -1,5 +1,18 @@
 <?php
 
+namespace Symbiote\Elemental\Extension;
+
+use DataExtension;
+use FieldList;
+use Permission;
+use DropdownField;
+use DataList;
+use Config;
+use Director;
+use ElementList;
+use Exception;
+
+
 /**
  * Allows an element to have a custom rendering template assigned to it
  * from within the CMS.

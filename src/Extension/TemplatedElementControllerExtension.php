@@ -1,5 +1,11 @@
 <?php
 
+namespace Symbiote\Elemental\Extension;
+
+use Extension;
+use ClassInfo;
+
+
 /**
  * @author marcus
  */

@@ -1,5 +1,13 @@
 <?php
 
+namespace Symbiote\Elemental\Page;
+
+use Page;
+use MultiRecordField;
+use ElementalGridFieldAddNewDefinedElement;
+use ElementalGridFieldAddNewMultiClass;
+
+
 /**
  * 
  *

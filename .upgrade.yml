@@ -1,0 +1,7 @@
+mappings:
+  EmbeddedItemElement: Symbiote\Elemental\Element\EmbeddedItemElement
+  ElementalGridFieldAddNewDefinedElement: Symbiote\Elemental\GridField\ElementalGridFieldAddNewDefinedElement
+  MultiEditedElementsExtension: Symbiote\Elemental\Extension\MultiEditedElementsExtension
+  TemplatedElementControllerExtension: Symbiote\Elemental\Extension\TemplatedElementControllerExtension
+  TemplatedElementExtension: Symbiote\Elemental\Extension\TemplatedElementExtension
+  ElementaryPage: Symbiote\Elemental\Page\ElementaryPage

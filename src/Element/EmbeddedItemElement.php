@@ -1,5 +1,11 @@
 <?php
 
+namespace Symbiote\Elemental\Element;
+
+use BaseElement;
+use EmbeddedObjectField;
+
+
 /**
  * Allows the embedding of a youtube video
  *

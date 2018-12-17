@@ -1,5 +1,21 @@
 <?php
 
+namespace Symbiote\Elemental\Extension;
+
+use Extension;
+use FieldList;
+use BaseElement;
+use Permission;
+use ElementImage;
+use TextareaField;
+use CheckboxField;
+use ElementList;
+use UploadField;
+use MultiRecordUploadField;
+use MultiRecordField;
+use ClassInfo;
+
+
 /**
  * @author marcus
  */

@@ -1,5 +1,20 @@
 <?php
 
+namespace Symbiote\Elemental\GridField;
+
+use GridFieldAddNewMultiClass;
+use GridField;
+use Config;
+use GridFieldExtensions;
+use DropdownField;
+use ArrayData;
+use Controller;
+use Exception;
+use SS_HTTPResponse_Exception;
+use BaseElement;
+use Object;
+
+
 
 class ElementalGridFieldAddNewDefinedElement extends GridFieldAddNewMultiClass {
 	private static $templated_elements = array();

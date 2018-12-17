@@ -2,18 +2,20 @@
 
 namespace Symbiote\Elemental\Extension;
 
-use Extension;
-use FieldList;
-use BaseElement;
-use Permission;
-use ElementImage;
-use TextareaField;
-use CheckboxField;
-use ElementList;
-use UploadField;
-use MultiRecordUploadField;
-use MultiRecordField;
-use ClassInfo;
+use SilverStripe\ElementalBlocks\Block\FileBlock;
+
+use SilverStripe\Forms\FieldList;
+use DNADesign\Elemental\Models\BaseElement;
+use SilverStripe\Security\Permission;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\CheckboxField;
+use DNADesign\ElementalList\Model\ElementList;
+use Symbiote\MultiRecordField\Field\MultiRecordUploadField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use Symbiote\MultiRecordField\Field\MultiRecordField;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Extension;
+
 
 
 /**
@@ -22,7 +24,7 @@ use ClassInfo;
 class MultiEditedElementsExtension extends Extension
 {
 
-    public function updateCMSFields(\FieldList $fields)
+    public function updateCMSFields(FieldList $fields)
     {
         if (!BaseElement::config()->enable_title_in_template) {
             $fields->removeByName('HideTitle');
@@ -33,7 +35,7 @@ class MultiEditedElementsExtension extends Extension
             $fields->removeByName('MoveToListID');
         }
 
-        if ($this->owner instanceof ElementImage && $this->owner->class == 'ElementImage')
+        if ($this->owner instanceof FileBlock)
         {
             // don't need this
             $fields->removeByName('LinkDescription');
@@ -109,7 +111,7 @@ class MultiEditedElementsExtension extends Extension
 
 
         // check all our fields for file uploads and replace them
-        if (class_exists('MultiRecordUploadField')) {
+        if (class_exists(MultiRecordUploadField::class)) {
             $df = $fields->dataFields();
             foreach ($df as $f) {
                 if ($f instanceof UploadField) {
@@ -126,14 +128,14 @@ class MultiEditedElementsExtension extends Extension
             }
         }
 
-        if ($this->owner instanceof ElementList && class_exists('MultiRecordField'))
+        if ($this->owner instanceof ElementList && class_exists(MultiRecordField::class))
         {
             // replace with editor field
             $editor = MultiRecordField::create('ElementListEditor' . $this->owner->ID, 'Items', $this->owner->Elements());
             // adding elements inline doesn't quite work well enough just yet. 
 //            $editor->setCanAddInline(false);
 
-            $classes = ClassInfo::subclassesFor('BaseElement');
+            $classes = ClassInfo::subclassesFor(BaseElement::class);
             $editor->setModelClasses($classes);
 
             $fields->push($editor);

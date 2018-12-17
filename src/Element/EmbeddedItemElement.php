@@ -2,8 +2,10 @@
 
 namespace Symbiote\Elemental\Element;
 
-use BaseElement;
-use EmbeddedObjectField;
+
+use Sheadawson\Linkable\Models\EmbeddedObject;
+use Sheadawson\Linkable\Forms\EmbeddedObjectField;
+use DNADesign\Elemental\Models\BaseElement;
 
 
 /**
@@ -14,11 +16,13 @@ use EmbeddedObjectField;
 class EmbeddedItemElement extends BaseElement 
 {
     private static $title = 'Embedded item';
+
+    private static $table_name = 'EmbeddedItemElement';
     
     private static $description = 'An embeddable item, such as video, image, or other website';
     
     private static $has_one = array(
-        'EmbeddedItem'      => 'EmbeddedObject',
+        'EmbeddedItem'      => EmbeddedObject::class,
     );
     
     

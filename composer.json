@@ -10,6 +10,9 @@
 			"email": "marcus@silverstripe.com.au"
 		}
     ],
+    "require": {
+        "nyeholt/silverstripe-multirecordeditor": "~2.0"
+    },
     "autoload": {
         "psr-4": {
             "Symbiote\\Elemental\\": "src/",

@@ -70,7 +70,7 @@ class ElementaryPage extends Page
         if ($this->ID) {
             $elements = $this->ElementalArea()->Elements();
             if ($elements && $elements->count()) {
-                $fields->push(MultiRecordEditingField::create('Elements', 'Items', $elements)->setUseToggles(false));
+                $fields->push(MultiRecordEditingField::create('Elements', 'Items', $elements, true)->setUseToggles(false));
             }
         }
 

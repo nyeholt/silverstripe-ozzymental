@@ -28,10 +28,12 @@ class ElementaryPage extends Page
 
         $fields->removeByName('Content');
 
-        if ($this->ElementalAreaID) {
-            $editor = MultiRecordEditingField::create('ElementEditor', 'Elements', $this->ElementalArea()->Elements(), false);
-            $fields->addFieldToTab('Root.Elements', $editor);
-        } 
+        // example of using multirecord editing
+        // 
+        // if ($this->ElementalAreaID) {
+        //     $editor = MultiRecordEditingField::create('ElementEditor', 'Elements', $this->ElementalArea()->Elements(), false);
+        //     $fields->addFieldToTab('Root.Elements', $editor);
+        // } 
 
         $grid = $fields->dataFieldByName('ElementalArea');
         $fields->addFieldToTab('Root.Elements', $grid);

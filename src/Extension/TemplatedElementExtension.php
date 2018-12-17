@@ -1,5 +1,18 @@
 <?php
 
+namespace Symbiote\Elemental\Extension;
+
+use Exception;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Security\Permission;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\DataList;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\View\SSViewer;
+use SilverStripe\Control\Director;
+use DNADesign\ElementalList\Model\ElementList;
+use SilverStripe\ORM\DataExtension;
+
 /**
  * Allows an element to have a custom rendering template assigned to it
  * from within the CMS.
@@ -10,11 +23,12 @@
  *
  * @author Stephen McMahon <stephen@silverstripe.com.au>
  */
-class TemplatedElementExtension extends DataExtension {
+class TemplatedElementExtension extends DataExtension
+{
 
-	private static $db = array(
-		'RenderWithTemplate' => 'Varchar(128)', // allows developers access to specify a different template at create
-	);
+    private static $db = array(
+        'RenderWithTemplate' => 'Varchar(128)', // allows developers access to specify a different template at create
+    );
 
     /** 
      * This is actually defined in .yml so that it can be conditionally bound _ONLY_ if the 
@@ -23,55 +37,58 @@ class TemplatedElementExtension extends DataExtension {
 //	public static $has_one = array(
 //		'LayoutTemplate' => 'UserTemplate',
 //	);
-	
-	public function onBeforeWrite() {
-		if(intval($this->owner->RenderWithTemplate) > 0) {
-			$this->owner->LayoutTemplateID = $this->owner->RenderWithTemplate;
-		} else {
-			$this->owner->LayoutTemplateID = 0;
-		}
-	}
 
-	public function updateCMSFields(\FieldList $fields) {
+    public function onBeforeWrite()
+    {
+        if (intval($this->owner->RenderWithTemplate) > 0) {
+            $this->owner->LayoutTemplateID = $this->owner->RenderWithTemplate;
+        } else {
+            $this->owner->LayoutTemplateID = 0;
+        }
+    }
 
-		$fields->removeByName('RenderWithTemplate');
-		
-		if (Permission::check('ADMIN')) {
+    public function updateCMSFields(FieldList $fields)
+    {
+
+        $fields->removeByName('RenderWithTemplate');
+
+        if (Permission::check('ADMIN')) {
 			// get the list of templates
-			$fields->addFieldToTab('Root.Settings',
-				DropdownField::create(
-					'RenderWithTemplate',
-					'Display template',
-					$this->getElementTemplateList()
-				)->setEmptyString('-- default --')
-			);
-		}
-	}
+            $fields->addFieldToTab(
+                'Root.Settings',
+                DropdownField::create(
+                    'RenderWithTemplate',
+                    'Display template',
+                    $this->getElementTemplateList()
+                )->setEmptyString('-- default --')
+            );
+        }
+    }
 
-	public function getElementTemplateList() {
-		$layouts = class_exists('UserTemplate') ? DataList::create('UserTemplate')->filter(array('Use' => 'Layout')) : null;
-        
+    public function getElementTemplateList()
+    {
+        $layouts = class_exists('UserTemplate') ? DataList::create('UserTemplate')->filter(array('Use' => 'Layout')) : null;
 
-		$themeDir = Config::inst()->get('SSViewer', 'theme');
-		$templates = array();
-		if (strlen($themeDir)) {
-			$path = Director::baseFolder() . '/themes/' . $themeDir . '/templates/elements/*.ss';
-			$files = glob($path);
-			foreach ($files as $filename) {
-				$templateName = str_replace('.ss', '', basename($filename));
-				$templates[$templateName] = $templateName;
-			}
-		}
+        $themeDir = Config::inst()->get(SSViewer::class, 'theme');
+        $templates = array();
+        if (strlen($themeDir)) {
+            $path = Director::baseFolder() . '/themes/' . $themeDir . '/templates/elements/*.ss';
+            $files = glob($path);
+            foreach ($files as $filename) {
+                $templateName = str_replace('.ss', '', basename($filename));
+                $templates[$templateName] = $templateName;
+            }
+        }
 
         if ($layouts) {
-            foreach($layouts->map() as $ID => $title) {
+            foreach ($layouts->map() as $ID => $title) {
                 $templates[$ID] = $title;
             }
         }
-		
-		
-		return $templates;
-	}
+
+
+        return $templates;
+    }
 
     public function onAfterWrite()
     {
@@ -117,7 +134,8 @@ class TemplatedElementExtension extends DataExtension {
      *
      * @param array $config
      */
-    public function createTemplatedElements($config, $addToList = null) {
+    public function createTemplatedElements($config, $addToList = null)
+    {
         foreach ($config as $elementConfig) {
             $element = $this->createElement($elementConfig);
 
@@ -137,7 +155,8 @@ class TemplatedElementExtension extends DataExtension {
      * @return type
      * @throws Exception
      */
-    protected function createElement($config) {
+    protected function createElement($config)
+    {
         if (!isset($config['ClassName'])) {
             throw new Exception('ClassName not found for new defined element');
         }

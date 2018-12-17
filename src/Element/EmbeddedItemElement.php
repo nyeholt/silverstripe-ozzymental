@@ -1,5 +1,13 @@
 <?php
 
+namespace Symbiote\Elemental\Element;
+
+
+use Sheadawson\Linkable\Models\EmbeddedObject;
+use Sheadawson\Linkable\Forms\EmbeddedObjectField;
+use DNADesign\Elemental\Models\BaseElement;
+
+
 /**
  * Allows the embedding of a youtube video
  *
@@ -8,11 +16,13 @@
 class EmbeddedItemElement extends BaseElement 
 {
     private static $title = 'Embedded item';
+
+    private static $table_name = 'EmbeddedItemElement';
     
     private static $description = 'An embeddable item, such as video, image, or other website';
     
     private static $has_one = array(
-        'EmbeddedItem'      => 'EmbeddedObject',
+        'EmbeddedItem'      => EmbeddedObject::class,
     );
     
     

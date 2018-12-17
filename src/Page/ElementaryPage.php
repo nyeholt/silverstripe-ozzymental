@@ -9,6 +9,9 @@ use Symbiote\MultiRecordField\Field\MultiRecordField;
 use Symbiote\Elemental\GridField\ElementalGridFieldAddNewDefinedElement;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use DNADesign\Elemental\Extensions\ElementalPageExtension;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 
 /**
  * 
@@ -23,6 +26,8 @@ class ElementaryPage extends Page
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName('Content');
+
         if (class_exists(MultiRecordField::class) && $this->ElementAreaID) {
             $editor = MultiRecordField::create('ElementEditor', 'Elements', $this->ElementArea()->Elements());
             $editor->setCanAddInline(false);
@@ -30,12 +35,47 @@ class ElementaryPage extends Page
         }
 
         $grid = $fields->dataFieldByName('ElementalArea');
-        $fields->addFieldToTab('Root.ManageElements', $grid);
 
         $grid->getConfig()->removeComponentsByType('ElementalGridFieldAddNewMultiClass');
         // $grid->getConfig()->addComponent(new ElementalGridFieldAddNewDefinedElement());
         // $grid->getConfig()->addComponent(new ElementalGridFieldAddNewMultiClass());
         $grid->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+
+        return $fields;
+    }
+
+    public function onBeforeWrite()
+    {
+        if ($this->ElementalAreaID) {
+            $content = DBField::create_field('Text', $this->getElementsForSearch());
+            $this->Content = $content->RAW();
+        }
+
+        parent::onBeforeWrite();
+    }
+
+    public function getFrontendCreateFields()
+    {
+        $fields = FieldList::create([
+            TextField::create('Title')
+        ]);
+
+        return $fields;
+    }
+
+
+    public function getFrontEndFields($params = null)
+    {
+        $fields = FieldList::create([
+            TextField::create('Title')
+        ]);
+
+        if ($this->ID) {
+            $elements = $this->ElementalArea()->Elements();
+            if ($elements && $elements->count()) {
+                $fields->push(MultiRecordField::create('Elements', 'Items', $elements)->setUseToggles(false));
+            }
+        }
 
         return $fields;
     }

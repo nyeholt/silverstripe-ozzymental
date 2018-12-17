@@ -5,13 +5,13 @@ namespace Symbiote\Elemental\Page;
 use Page;
 
 use ElementalGridFieldAddNewMultiClass;
-use Symbiote\MultiRecordField\Field\MultiRecordField;
 use Symbiote\Elemental\GridField\ElementalGridFieldAddNewDefinedElement;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use DNADesign\Elemental\Extensions\ElementalPageExtension;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
+use Symbiote\MultiRecord\MultiRecordEditingField;
 
 /**
  * 
@@ -28,17 +28,14 @@ class ElementaryPage extends Page
 
         $fields->removeByName('Content');
 
-        if (class_exists(MultiRecordField::class) && $this->ElementAreaID) {
-            $editor = MultiRecordField::create('ElementEditor', 'Elements', $this->ElementArea()->Elements());
-            $editor->setCanAddInline(false);
-            $fields->addFieldToTab('Root.Main', $editor);
-        }
+        if ($this->ElementalAreaID) {
+            $editor = MultiRecordEditingField::create('ElementEditor', 'Elements', $this->ElementalArea()->Elements(), false);
+            $fields->addFieldToTab('Root.Elements', $editor);
+        } 
 
         $grid = $fields->dataFieldByName('ElementalArea');
-
+        $fields->addFieldToTab('Root.Elements', $grid);
         $grid->getConfig()->removeComponentsByType('ElementalGridFieldAddNewMultiClass');
-        // $grid->getConfig()->addComponent(new ElementalGridFieldAddNewDefinedElement());
-        // $grid->getConfig()->addComponent(new ElementalGridFieldAddNewMultiClass());
         $grid->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
 
         return $fields;
@@ -73,7 +70,7 @@ class ElementaryPage extends Page
         if ($this->ID) {
             $elements = $this->ElementalArea()->Elements();
             if ($elements && $elements->count()) {
-                $fields->push(MultiRecordField::create('Elements', 'Items', $elements)->setUseToggles(false));
+                $fields->push(MultiRecordEditingField::create('Elements', 'Items', $elements)->setUseToggles(false));
             }
         }
 

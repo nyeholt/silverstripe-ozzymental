@@ -9,7 +9,13 @@
 			"name": "Marcus Nyeholt",
 			"email": "marcus@silverstripe.com.au"
 		}
-	],
+    ],
+    "autoload": {
+        "psr-4": {
+            "Symbiote\\Elemental\\": "src/",
+            "Symbiote\\Elemental\\Tests\\": "tests/"
+        }
+    },
 	"extra": {
 		"installer-name": "ozzymental",
 		"branch-alias": {

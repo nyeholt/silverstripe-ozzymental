@@ -52,6 +52,7 @@ class TemplatedElementExtension extends DataExtension
     {
 
         $fields->removeByName('RenderWithTemplate');
+        $fields->removeByName('LayoutTemplateID');
 
         if (Permission::check('ADMIN')) {
 			// get the list of templates

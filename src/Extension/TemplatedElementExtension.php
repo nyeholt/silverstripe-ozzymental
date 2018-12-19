@@ -12,6 +12,7 @@ use SilverStripe\View\SSViewer;
 use SilverStripe\Control\Director;
 use DNADesign\ElementalList\Model\ElementList;
 use SilverStripe\ORM\DataExtension;
+use Symbiote\UserTemplates\UserTemplate;
 
 /**
  * Allows an element to have a custom rendering template assigned to it
@@ -21,7 +22,7 @@ use SilverStripe\ORM\DataExtension;
  * if it has a particular "child elements" property set, during its onaftercreate
  * it will create any indicated templated elements. 
  *
- * @author Stephen McMahon <stephen@silverstripe.com.au>
+ * @author Stephen McMahon <stephen@symbiote.com.au>
  */
 class TemplatedElementExtension extends DataExtension
 {
@@ -67,7 +68,7 @@ class TemplatedElementExtension extends DataExtension
 
     public function getElementTemplateList()
     {
-        $layouts = class_exists('UserTemplate') ? DataList::create('UserTemplate')->filter(array('Use' => 'Layout')) : null;
+        $layouts = class_exists(UserTemplate::class) ? DataList::create(UserTemplate::class)->filter(array('Use' => 'Layout')) : null;
 
         $themeDir = Config::inst()->get(SSViewer::class, 'theme');
         $templates = array();

@@ -39,7 +39,29 @@ $TemplatedContent
 
 to make use of it. 
 
+Then, bind the extensions
 
+```
+---
+Name: element_config
+---
+DNADesign\Elemental\Models\BaseElement:
+  extensions:
+    - Symbiote\Elemental\Extension\TemplatedElementExtension
+
+DNADesign\Elemental\Controllers\ElementController:
+  extensions:
+    - Symbiote\Elemental\Extension\TemplatedElementControllerExtension
+
+---
+Name: elemental_overrides
+Only:
+  moduleexists: usertemplates
+---
+DNADesign\Elemental\Models\BaseElement:
+  has_one:
+    LayoutTemplate: Symbiote\UserTemplates\UserTemplate
+```
 
 
 

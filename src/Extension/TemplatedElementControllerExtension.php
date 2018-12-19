@@ -4,6 +4,7 @@ namespace Symbiote\Elemental\Extension;
 
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Extension;
+use Symbiote\UserTemplates\UserTemplate;
 
 /**
  * @author marcus
@@ -29,7 +30,7 @@ class TemplatedElementControllerExtension extends Extension
             $widget->includeRequirements();
         }
 
-        $template = class_exists('UserTemplate') ? $widget->getComponent('LayoutTemplate') : null;
+        $template = class_exists(UserTemplate::class) ? $widget->getComponent('LayoutTemplate') : null;
 
         if ($widget->LayoutTemplateID > 0 && $template) {
             $template->includeRequirements();

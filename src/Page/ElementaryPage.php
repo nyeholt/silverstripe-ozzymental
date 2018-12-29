@@ -20,6 +20,8 @@ use Symbiote\MultiRecord\MultiRecordEditingField;
  */
 class ElementaryPage extends Page
 {
+    private static $table_name = 'ElementaryPage';
+    
     private static $extensions = [ElementalPageExtension::class];
 
     public function getCMSFields()

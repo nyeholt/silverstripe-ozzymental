@@ -21,6 +21,8 @@ class EmbeddedItemElement extends BaseElement
 
     private static $description = 'An embeddable item, such as video, image, or other website';
 
+    private static $inline_editable = false;
+
     private static $has_one = array(
         'EmbeddedItem'      => EmbeddedObject::class,
     );
